@@ -1,3 +1,5 @@
+import { notFoundError } from "@/errors";
+import enrollmentRepository from "@/repositories/enrollment-repository";
 import { ticketsRepository } from "@/repositories/ticket-repository";
 
 async function getTicketsTypes() {
@@ -6,8 +8,21 @@ async function getTicketsTypes() {
   return result;
 }
 
-const ticketsTypesService = {
+async function getTicketByUser(userId: number) {
+  const enrollment = await enrollmentRepository.findWithAddressByUserId(userId);
+
+  if(!enrollment) throw notFoundError();
+
+  const ticket = await ticketsRepository.getTicketByEnrollmentId(enrollment.id);
+
+  if(!ticket) throw notFoundError();
+
+  return ticket;
+}
+
+const ticketsService = {
   getTicketsTypes,
+  getTicketByUser,
 };
 
-export { ticketsTypesService };
+export { ticketsService };

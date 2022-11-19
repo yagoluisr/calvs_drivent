@@ -20,7 +20,7 @@ export type AddressEnrollment = {
   uf: string,
   error?: string
 
-}
+};
 
 export type RequestError = {
   status: number,
