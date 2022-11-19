@@ -29,3 +29,7 @@ export type RequestError = {
   name: string,
   message: string,
 };
+
+export type TicketTypeBody = {
+  ticketTypeId: number
+};
