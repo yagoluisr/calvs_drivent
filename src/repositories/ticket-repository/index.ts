@@ -1,5 +1,5 @@
 import { prisma } from "@/config";
-import { Address, Enrollment } from "@prisma/client";
+import { Address, Enrollment, Ticket } from "@prisma/client";
 
 async function getAllTicketsTypes() {
   return prisma.ticketType.findMany();
@@ -39,10 +39,22 @@ type enrollmentResult = Enrollment & {
   Address: Address[];
 }
 
+async function getTicketByUser(ticketId: number) {
+  return prisma.ticket.findFirst({
+    where: { 
+      id: ticketId
+    },
+    include: {
+      Enrollment: true
+    }
+  });
+}
+
 const ticketsRepository = {
   getAllTicketsTypes,
   getTicketByEnrollmentId,
   insertTicketType,
+  getTicketByUser
 };
 
 export { ticketsRepository };
