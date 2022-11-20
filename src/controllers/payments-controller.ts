@@ -12,7 +12,7 @@ export async function getPayments(req: AuthenticatedRequest, res: Response) {
   try {
     const paymentByTicketId = await paymentsService.getPaymentByTicketId(ticketId, userId);
 
-    return res.sendStatus(httpStatus.OK).send(paymentByTicketId);
+    return res.status(httpStatus.OK).send(paymentByTicketId);
   } catch (error) {
     if (error.name === "NotFoundError") {
       return res.sendStatus(httpStatus.NOT_FOUND);
