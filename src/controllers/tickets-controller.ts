@@ -1,6 +1,5 @@
 import { AuthenticatedRequest } from "@/middlewares";
 import { TicketTypeBody } from "@/protocols";
-import enrollmentsService from "@/services/enrollments-service";
 import { ticketsService } from "@/services/tickets-service";
 import { Response } from "express";
 import httpStatus from "http-status";
