@@ -33,3 +33,14 @@ export type RequestError = {
 export type TicketTypeBody = {
   ticketTypeId: number
 };
+
+export type PaymentProcessBody = {
+	ticketId: number,
+	cardData: {
+		issuer: string,
+    number: number,
+    name: string,
+    expirationDate: Date,
+    cvv: number
+	}
+}

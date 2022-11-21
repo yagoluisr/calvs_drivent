@@ -1,5 +1,5 @@
 import { prisma } from "@/config";
-import { Address, Enrollment, Ticket } from "@prisma/client";
+import { Address, Enrollment, Ticket, TicketStatus } from "@prisma/client";
 
 async function getAllTicketsTypes() {
   return prisma.ticketType.findMany();
@@ -45,7 +45,19 @@ async function getTicketByUser(ticketId: number) {
       id: ticketId
     },
     include: {
-      Enrollment: true
+      Enrollment: true,
+      TicketType: true
+    }
+  });
+}
+
+async function updateTicketStatus(id: number) {
+  return prisma.ticket.update({
+    where: {
+      id
+    },
+    data: {
+      status: TicketStatus.PAID
     }
   });
 }
@@ -54,7 +66,8 @@ const ticketsRepository = {
   getAllTicketsTypes,
   getTicketByEnrollmentId,
   insertTicketType,
-  getTicketByUser
+  getTicketByUser,
+  updateTicketStatus,
 };
 
 export { ticketsRepository };
