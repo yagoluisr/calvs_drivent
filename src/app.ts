@@ -11,6 +11,7 @@ import { handleApplicationErrors } from "@/middlewares";
 import { usersRouter, authenticationRouter, eventsRouter, enrollmentsRouter } from "@/routers";
 import { ticketsRouter } from "@/routers/tickets-router";
 import { paymentsRouter } from "@/routers/payments-router";
+import { hotelsRouter } from "./routers/hotels-router";
 
 const app = express();
 app
@@ -23,7 +24,7 @@ app
   .use("/enrollments", enrollmentsRouter)
   .use("/tickets", ticketsRouter)
   .use("/payments", paymentsRouter)
-  .use("/hotels", paymentsRouter)
+  .use("/hotels", hotelsRouter)
   .use(handleApplicationErrors);
 
 export function init(): Promise<Express> {
