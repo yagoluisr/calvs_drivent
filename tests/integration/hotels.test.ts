@@ -101,22 +101,6 @@ describe("GET /hotels", () => {
       expect(response.status).toBe(httpStatus.PAYMENT_REQUIRED);
     });
 
-    // it("should response with empty array if user have a ticket with 'PAID' status but in ticket type is remote", async () => {
-    //   const user = await createUser();
-    //   const token = await generateValidToken();
-    //   const UserEnrollment = await createEnrollmentWithAddress(user);
-
-    //   const isRemote = true;
-    //   const includesHotel = false;
-    //   const ticketType = await createTicketTypeWithHotels(isRemote, includesHotel);
-            
-    //   const ticket = await createTicket(UserEnrollment.id, ticketType.id, TicketStatus.PAID);
-
-    //   const response = await server.get("/hotels").set("Authorization", `Bearer ${token}`);
-
-    //   expect(response.status).toBe([]);
-    // });
-
     it("should response with status 200 and with existing hotels data", async () => {
       const user = await createUser();
       const token = await generateValidToken(user);
@@ -126,7 +110,7 @@ describe("GET /hotels", () => {
       const includesHotel = true;
       const ticketType = await createTicketTypeWithHotels(isRemote, includesHotel);
 
-      const ticket = await createTicket(enrollment.id, ticketType.id, TicketStatus.PAID);
+      await createTicket(enrollment.id, ticketType.id, TicketStatus.PAID);
 
       const hotels = await createHotelWithRooms();
             
@@ -274,7 +258,7 @@ describe("Get /hotels/:hotelId", () => {
       const includesHotel = true;
       const ticketType = await createTicketTypeWithHotels(isRemote, includesHotel);
 
-      const ticket = await createTicket(enrollment.id, ticketType.id, TicketStatus.PAID);
+      await createTicket(enrollment.id, ticketType.id, TicketStatus.PAID);
 
       const hotel = await createHotelWithRooms();
 
