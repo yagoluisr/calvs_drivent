@@ -1,5 +1,11 @@
-import { notFoundError } from "@/errors";
+import { notFoundError, unauthorizedError } from "@/errors";
+import { forbiddenError } from "@/errors/forbidden-room-error";
 import bookingRepository from "@/repositories/booking-repository";
+import hotelRepository from "@/repositories/hotel-repository";
+import { hotelsRepository } from "@/repositories/hotels-repository";
+import { TicketStatus } from "@prisma/client";
+import httpStatus from "http-status";
+import { ticketsService } from "../tickets-service";
 
 async function getBooking(userId: number) {
   const booking = await bookingRepository.findBookingByUserId(userId);
@@ -9,26 +15,27 @@ async function getBooking(userId: number) {
   return booking;
 }
 
-// async function getHotels(userId: number) {
-//   await listHotels(userId);
+async function postBooking(userId: number, roomId: number) {
+  const ticket = await ticketsService.getTicketByUser(userId);
+  
+  if(ticket.TicketType.isRemote || !ticket.TicketType.includesHotel || ticket.status !== TicketStatus.PAID) {
+    throw unauthorizedError();
+  }
 
-//   const hotels = await hotelRepository.findHotels();
-//   return hotels;
-// }
+  const room = await hotelRepository.getRoomById(roomId);
 
-// async function getHotelsWithRooms(userId: number, hotelId: number) {
-//   await listHotels(userId);
-//   const hotel = await hotelRepository.findRoomsByHotelId(hotelId);
+  if(!room) throw notFoundError();
 
-//   if (!hotel) {
-//     throw notFoundError();
-//   }
-//   return hotel;
-// }
+  if(room.capacity <= room.Booking.length) throw forbiddenError();
+
+  const insertedBooking = await bookingRepository.createBooking(userId, roomId);
+
+  return insertedBooking;
+}
 
 const bookingService = {
   getBooking,
-  
+  postBooking,
 };
 
 export default bookingService;

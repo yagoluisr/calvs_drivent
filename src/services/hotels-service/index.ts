@@ -4,6 +4,7 @@ import enrollmentRepository from "@/repositories/enrollment-repository";
 import { notFoundError } from "@/errors";
 import { cannotListHotelsError } from "@/errors/cannot-list-hotels-error";
 import { ticketsRepository } from "@/repositories/ticket-repository";
+import { type } from "os";
 
 async function listHotels(userId: number) {
   //Tem enrollment?
@@ -34,6 +35,10 @@ async function getHotelsWithRooms(userId: number, hotelId: number) {
     throw notFoundError();
   }
   return hotel;
+}
+
+export type RoomId = {
+	roomId: number
 }
 
 const hotelService = {
