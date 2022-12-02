@@ -11,10 +11,7 @@ export async function getBookingByUser(req: AuthenticatedRequest, res: Response)
     
     return res.status(httpStatus.OK).send(booking);
   } catch (error) {
-    if (error.name === "NotFoundError") {
-      return res.sendStatus(httpStatus.NOT_FOUND);
-    }
-    return res.sendStatus(httpStatus.UNAUTHORIZED);
+    return res.sendStatus(httpStatus.NOT_FOUND);
   }
 }
 
@@ -33,15 +30,11 @@ export async function insertBooking(req: AuthenticatedRequest, res: Response) {
       return res.sendStatus(httpStatus.NOT_FOUND);
     }
 
-    if (error.name === "ForbiddenError") {
-      return res.sendStatus(httpStatus.FORBIDDEN);
-    }
-
     if (error.name === "UnauthorizedError") {
       return res.sendStatus(httpStatus.UNAUTHORIZED);
     }
 
-    return res.sendStatus(httpStatus.NO_CONTENT);
+    return res.sendStatus(httpStatus.FORBIDDEN);
   }
 }
 
@@ -61,14 +54,10 @@ export async function updateBooking(req: AuthenticatedRequest, res: Response) {
       return res.sendStatus(httpStatus.NOT_FOUND);
     }
 
-    if (error.name === "ForbiddenError") {
-      return res.sendStatus(httpStatus.FORBIDDEN);
-    }
-
     if (error.name === "UnauthorizedError") {
       return res.sendStatus(httpStatus.UNAUTHORIZED);
     }
 
-    return res.sendStatus(httpStatus.NO_CONTENT);
+    return res.sendStatus(httpStatus.FORBIDDEN);
   }
 }

@@ -2,9 +2,7 @@ import { notFoundError, unauthorizedError } from "@/errors";
 import { forbiddenError } from "@/errors/forbidden-room-error";
 import bookingRepository from "@/repositories/booking-repository";
 import hotelRepository from "@/repositories/hotel-repository";
-import { hotelsRepository } from "@/repositories/hotels-repository";
 import { TicketStatus } from "@prisma/client";
-import httpStatus from "http-status";
 import { ticketsService } from "../tickets-service";
 
 async function getBooking(userId: number) {
